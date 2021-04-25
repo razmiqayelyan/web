@@ -1,0 +1,70 @@
+{% if user.is_authenticated %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ user.username|title }} Bookings</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'form.css' %}">
+
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+	
+
+<nav class="navbar navbar-expand-lg navbar-primary bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'profile' user.username %}"><i><strong></strong>Hello {{ user.username|title }}</i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+      	 <a class="nav-link active" aria-current="page" href="/">Home</a>
+      	 <a class="nav-link active" aria-current="page" href="{% url 'booking' %}">+Booking</a>
+       
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+       
+      </div>
+    </div>
+  </div>
+</nav>
+	<h2><i><strong>Your Bookings</strong></i></h2><br>
+	{% for i in book %}
+	{% if i.user.username == user.username %}	
+
+
+	<div  class="card" style="width: 13rem;margin-left: 10px;margin-top: 10px;">
+
+  
+  <div class="card-body">
+    <h4 class="card-title"><strong>{{ i.name }}</strong></h4>
+     <h5 class="card-title">Date: "{{ i.book_time }}</h5>
+    <h6 class="card-text">Employee: "{{ i.employer }}</h6>
+           <p class="card-title">Booked By: {{ user.username }}</p>
+       <p class="card-title">Comment: "{{ i.comment }}</p>
+      
+       <a class="btn btn-warning btn-sm" href="{% url 'update' user.username i.id %}">Edit</a>
+	<a class="btn btn-danger btn-sm" href="{% url 'delete' user.username i.id %}">Delete</a>
+
+
+<!-- 	<h2>"{{ i.name }}"</h2>
+	<h3>Date: "{{ i.book_time }}"</h3>
+	<h4>Employee: "{{ i.employer }}"</h4>
+	<h5>Comment: "{{ i.comment }}"</h5>
+	<h6>Booked By: {{ user.username }}</h6>
+	<a class="btn btn-warning btn-sm" href="{% url 'update' user.username i.id %}">Edit</a>
+	<a class="btn btn-danger btn-sm" href="{% url 'delete' user.username i.id %}">Delete</a>
+	<h3>* * * * * * * *</h3> -->
+
+	 
+   </div>
+   </div>
+	{% endif %}
+	{% endfor %}
+	
+	
+
+</body>
+</html>
+{% endif %}
